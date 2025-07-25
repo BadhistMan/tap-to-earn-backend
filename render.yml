@@ -2,7 +2,10 @@ services:
   - type: web
     name: tap-to-earn-backend
     env: python
-    buildCommand: pip install -r requirements.txt
+    region: frankfurt  # Choose closest region to your users
+    buildCommand: |
+      pip install -r requirements.txt
+      flask db upgrade
     startCommand: gunicorn app:app
     envVars:
       - key: DATABASE_URL
@@ -11,3 +14,18 @@ services:
           property: connectionString
       - key: BOT_TOKEN
         value: 8246236846:AAHW_hPy5wALCrnjip1iX_Gr-MnBYZneTko
+      - key: DAILY_REWARD
+        value: 1000
+      - key: REFERRAL_BONUS
+        value: 500
+      - key: WITHDRAWAL_MIN
+        value: 50000
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://badhistman.github.io
+
+databases:
+  - name: tap-to-earn-db
+    region: frankfurt
+    plan: free
