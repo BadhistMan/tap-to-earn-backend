@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-db = SQLAlchemy()
+from . import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +14,7 @@ class User(db.Model):
     last_tap = db.Column(db.DateTime)
     joined_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationships
     referrals = db.relationship('Referral', foreign_keys='Referral.referrer_id', backref='referrer', lazy=True)
     withdrawals = db.relationship('Withdrawal', backref='user', lazy=True)
     taps = db.relationship('Tap', backref='user', lazy=True)
